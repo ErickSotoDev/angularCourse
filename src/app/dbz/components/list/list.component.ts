@@ -2,7 +2,7 @@ import { CommonModule } from '@angular/common';
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 
 @Component({
-  selector: 'app-dbz-list',
+  selector: 'dbz-list',
   standalone: false,
   templateUrl: './list.component.html',
   styleUrls: ['./list.component.css'],
