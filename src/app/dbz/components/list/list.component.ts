@@ -3,10 +3,7 @@ import { ChangeDetectionStrategy, Component } from '@angular/core';
 
 @Component({
   selector: 'app-dbz-list',
-  standalone: true,
-  imports: [
-    CommonModule,
-  ],
+  standalone: false,
   templateUrl: './list.component.html',
   styleUrls: ['./list.component.css'],
   changeDetection: ChangeDetectionStrategy.OnPush,
