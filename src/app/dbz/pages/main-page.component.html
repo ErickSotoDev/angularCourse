@@ -2,12 +2,12 @@
 <hr>
 <div class="row">
   <div class="col">
-    <dbz-list></dbz-list>
+    <dbz-list [prueba]="dbzService.characters" (onDeleteIdEmitter)="dbzService.deleteCharacterById($event)"></dbz-list>
 
   </div>
 
   <div class="col">
-  <dbz-add-character></dbz-add-character>
+  <dbz-add-character (onNewCharacter)="dbzService.onNewCharacter($event)"></dbz-add-character>
 
   </div>
 </div>
