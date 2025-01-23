@@ -1,5 +1,4 @@
-import { setCompodocJson } from '@storybook/addon-docs/angular';
-import docJson from '../documentation.json'; // Ajusta esta ruta si es necesario
+import { moduleMetadata } from '@storybook/angular';
 import { MonacoEditorModule, NGX_MONACO_EDITOR_CONFIG } from 'ngx-monaco-editor-v2';
 
 export const parameters = {
@@ -9,34 +8,42 @@ export const parameters = {
 };
 
 export const decorators = [
-  (story) => ({
-    moduleMetadata: {
-      imports: [
-        MonacoEditorModule.forRoot({
-          baseUrl: '/assets/monaco', // Asegúrate de que esta ruta es válida
-          defaultOptions: { scrollBeyondLastLine: false },
-          onMonacoLoad: () => {
-            console.log('✅ Monaco Editor configurado globalmente en preview.ts.');
-          },
-        }),
-      ],
-      providers: [
-        {
-          provide: NGX_MONACO_EDITOR_CONFIG,
-          useValue: {
-            baseUrl: '/assets/monaco', // Ruta a los archivos de Monaco Editor
+  (storyFn) => {
+    const story = storyFn();
+    return {
+      moduleMetadata: {
+        imports: [
+          MonacoEditorModule.forRoot({
+            baseUrl: '/assets/monaco', // Ruta donde están los archivos estáticos
             defaultOptions: { scrollBeyondLastLine: false },
             onMonacoLoad: () => {
-              console.log('✅ Proveedor global para NGX_MONACO_EDITOR_CONFIG.');
+              console.log('✅ Monaco Editor configurado globalmente.');
+            },
+          }),
+        ],
+        providers: [
+          {
+            provide: NGX_MONACO_EDITOR_CONFIG,
+            useValue: {
+              baseUrl: '/assets/monaco',
+              defaultOptions: { scrollBeyondLastLine: false },
+              onMonacoLoad: () => {
+                console.log('✅ NGX_MONACO_EDITOR_CONFIG configurado.');
+              },
             },
           },
-        },
-      ],
-    },
-    template: `
-      <div style="padding: 16px;">
-        <story />
-      </div>
-    `,
-  }),
+        ],
+      },
+      template: `
+        <div style="padding: 16px;">
+          <ng-container *ngIf="storyTemplate">
+            <ng-container *ngTemplateOutlet="storyTemplate"></ng-container>
+          </ng-container>
+        </div>
+      `,
+      props: {
+        storyTemplate: story.template,
+      },
+    };
+  },
 ];
